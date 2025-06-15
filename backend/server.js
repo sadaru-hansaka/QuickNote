@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const noteRoutes = require('./routes/note.route');
 
 const app = express();
-app.use(express.json());
-
 app.use(cors());
 app.use(express.json());
 
@@ -20,6 +18,6 @@ mongoose.connect(process.env.MONGODB_URI)
         console.log("Server is running on port 3000");
     })
 })
-.catch(()=>{
-    console.log("Something went wrong")
+.catch((err)=>{
+    console.log("Something went wrong",err.message);
 })
