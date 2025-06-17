@@ -5,9 +5,10 @@ import StarterKit from '@tiptap/starter-kit';
 import MenuBArRichText from './MenuBarRichText';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
+import { useImperativeHandle, forwardRef } from 'react';
+import {useEffect} from 'react';
 
-
-const RichTextEditor = () => {
+export default function RichTextEditor({onEditorReady}){
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -36,6 +37,12 @@ const RichTextEditor = () => {
 
   })
 
+  useEffect(() => {
+    if (editor && onEditorReady) {
+      onEditorReady(editor);
+    }
+  }, [editor]);
+
   return (
     <>
       <MenuBArRichText editor={editor}/>
@@ -44,4 +51,3 @@ const RichTextEditor = () => {
   )
 }
 
-export default RichTextEditor;

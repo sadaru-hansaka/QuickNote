@@ -7,7 +7,7 @@ const noteShema = mongoose.Schema(
             required:[true, "please enter a title"]
         },
         note:{
-            type:String,
+            type:mongoose.Schema.Types.Mixed,
             required:false
         },
         addedDate:{

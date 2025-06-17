@@ -25,7 +25,8 @@ export default function Home() {
             {notes.map((note) => (
               <li key={note._id} style={{ marginBottom: "1rem" }}>
                 <h3>{note.title}</h3>
-                <p>{note.note}</p>
+                {/* <p>{note.note}</p> */}
+                <div dangerouslySetInnerHTML={{ __html: note.note }} />
                 <small>{new Date(note.addedDate).toLocaleString()}</small>
               </li>
             ))}
