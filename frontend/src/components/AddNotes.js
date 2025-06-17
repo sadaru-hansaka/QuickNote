@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue,} from "@/components/ui/select";
+import RichTextEditor from "@/components/RichTextEditor";
+import {useState} from 'react';
 
 
 export default function AddNotes({open, handleClose}){
-    
+
     return (
         <>
             <Dialog open={open} onOpenChange={handleClose}>
@@ -48,8 +50,7 @@ export default function AddNotes({open, handleClose}){
                     </div>
                     <div className="grid gap-3">
                         <Label htmlFor="username-1">Note Content</Label>
-                        <Textarea placeholder="Type your message here." />
-                        
+                        <RichTextEditor />
                     </div>
                     </div>
                     <DialogFooter>
