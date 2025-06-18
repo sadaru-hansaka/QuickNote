@@ -31,7 +31,7 @@ export default function RichTextEditor({onEditorReady}){
     content: '<p>Hello World! 🌎️</p>',
     editorProps:{
       attributes:{
-        class:"min-h-[156px] border rounder-md bg-slate-50 py-2 px-3",
+        class:"max-h-[300px] overflow-y-auto border rounder-md bg-slate-50 py-2 px-3",
       }
     },
 

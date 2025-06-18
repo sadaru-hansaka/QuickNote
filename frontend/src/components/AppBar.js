@@ -7,9 +7,9 @@ export default function AppBar() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   return (
     <>
-      <header className="flex items-center justify-between p-4 bg-white text-black shadow-md">
+      <header className="flex items-center justify-between p-4 bg-gray-50 text-black shadow-md">
         <h1 className="text-xl font-semibold">QuickNotes</h1>
-        <div className='flex w-1/3 items-center border text-[#9CA3AF] border-gray-300 rounded-md px-3 py-1'>
+        <div className='flex w-1/3 items-center border text-[#595a5c] border-gray-400 rounded-md px-3 py-1'>
           <input
             type="text"
             placeholder="Search notes by title or date ..."

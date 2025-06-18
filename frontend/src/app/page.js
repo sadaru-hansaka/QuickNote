@@ -25,7 +25,7 @@ export default function Home() {
           <div className='flex flex-wrap gap-2'>
             {notes.map((note) => (
 
-                <NoteCard key={note.id} title={note.title} content={note.note} date={new Date(note.addedDate).toLocaleString()}/>
+                <NoteCard key={note.id} id={note._id} title={note.title} content={note.note} date={new Date(note.addedDate).toLocaleString()} />
             ))}
           </div>
         )}

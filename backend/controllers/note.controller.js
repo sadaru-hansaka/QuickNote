@@ -59,7 +59,7 @@ const deletenotes = async (req, res)=> {
         if(!note){
             return res.status(404).send({message:"Note not found"});
         }
-        res.status(200).send("Sucessfullt deleted");
+        res.status(200).send({success:true});
     }catch(error){
         res.status(500).send({message:error.message});
     }
