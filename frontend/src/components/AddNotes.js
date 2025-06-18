@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue,} from "@/components/ui/select";
-import RichTextEditor from "@/components/RichTextEditor";
+import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
 import {useState,useRef} from 'react';
 import axios from 'axios';
 
@@ -83,7 +83,7 @@ export default function AddNotes({open, handleClose}){
                             <DialogClose asChild>
                                 <Button variant="outline">Cancel</Button>
                             </DialogClose>
-                            <Button onClick={handleSubmit}>Save changes</Button>
+                            <Button onClick={handleSubmit}>Save</Button>
                         </DialogFooter>
                     </DialogContent>
                     

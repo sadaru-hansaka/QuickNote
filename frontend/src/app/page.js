@@ -2,6 +2,7 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import AppBar from '@/components/AppBar';
+import NoteCard from '@/components/NoteCard';
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
@@ -21,16 +22,12 @@ export default function Home() {
         {notes.length === 0 ? (
           <p>No notes found.</p>
         ) : (
-          <ul>
+          <div className='flex flex-wrap gap-2'>
             {notes.map((note) => (
-              <li key={note._id} style={{ marginBottom: "1rem" }}>
-                <h3>{note.title}</h3>
-                {/* <p>{note.note}</p> */}
-                <div dangerouslySetInnerHTML={{ __html: note.note }} />
-                <small>{new Date(note.addedDate).toLocaleString()}</small>
-              </li>
+
+                <NoteCard key={note.id} title={note.title} content={note.note} date={new Date(note.addedDate).toLocaleString()}/>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </>
