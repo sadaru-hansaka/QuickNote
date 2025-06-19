@@ -1,19 +1,23 @@
-import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle,DialogTrigger,DialogClose,DialogFooter,} from "@/components/ui/dialog"
+import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle,DialogTrigger,DialogClose,DialogFooter,} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,SelectValue,} from "@/components/ui/select";
 import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
-import {useState,useRef} from 'react';
+import {useState,useRef,useEffect} from 'react';
 import axios from 'axios';
 
 
-export default function AddNotes({open, handleClose}){
+export default function AddNotes({open, handleClose,isEditing = false, noteToEdit = null, handleUpdate}){
 
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(noteToEdit?.title||'');
     const [editor, setEditor] = useState(null);
     // const editorRef = useRef();
+
+    useEffect(() => {
+        setTitle(noteToEdit?.title || '');
+    }, [noteToEdit]);
 
     const handleSubmit = async (e) => {
         console.log("Fucked0");
@@ -22,13 +26,25 @@ export default function AddNotes({open, handleClose}){
         console.log(content);
 
         try{
-            const res = await axios.post('http://localhost:3000/api/notes', {title, note:content});
+            if(isEditing && noteToEdit){
+                const res = await axios.put(`http://localhost:3000/api/notes/${noteToEdit._id}`, {
+                    title,
+                    note: content
+                });
+                if (res.data.success) {
+                    alert("Note updated successfully!");
+                    // handleUpdate && handleUpdate(); // Optional: refresh list
+                    handleClose();
+                }
+            }else{
+                const res = await axios.post('http://localhost:3000/api/notes', {title, note:content});
 
-            if (res.data.success) {
-                alert('Saved Successfully !');
-                setTitle('');
-                editor?.commands.clearContent();
-                handleClose();
+                if (res.data.success) {
+                    alert('Saved Successfully !');
+                    setTitle('');
+                    editor?.commands.clearContent();
+                    handleClose();
+                }
             }
         }catch (error) {
             console.error(error);
@@ -43,9 +59,9 @@ export default function AddNotes({open, handleClose}){
                     {/* <DialogTrigger asChild>
                         <Button variant="outline">Open Dialog</Button>ne
                     </DialogTrigger> */}
-                    <DialogContent className="sm:max-w-[600px]">
+                    <DialogContent className="sm:max-w-[800px] h-[80vh]">
                         <DialogHeader>
-                            <DialogTitle>Create a New Note</DialogTitle>
+                            <DialogTitle>{isEditing ? "Edit Note" : "Create a New Note"}</DialogTitle>
                             {/* <DialogDescription>
                                 Make changes to your profile here. Click save when you&apos;re
                                 done.
@@ -76,14 +92,14 @@ export default function AddNotes({open, handleClose}){
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="username-1">Note Content</Label>
-                                <RichTextEditor onEditorReady={setEditor}/>
+                                <RichTextEditor onEditorReady={setEditor} initialContent={isEditing ? noteToEdit?.note : ''}/>
                             </div>
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
                                 <Button variant="outline">Cancel</Button>
                             </DialogClose>
-                            <Button onClick={handleSubmit}>Save</Button>
+                            <Button onClick={handleSubmit}>{isEditing ? "Update" : "Save"}</Button>
                         </DialogFooter>
                     </DialogContent>
                     

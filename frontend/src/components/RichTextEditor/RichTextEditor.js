@@ -8,7 +8,7 @@ import Highlight from '@tiptap/extension-highlight';
 import { useImperativeHandle, forwardRef } from 'react';
 import {useEffect} from 'react';
 
-export default function RichTextEditor({onEditorReady}){
+export default function RichTextEditor({onEditorReady, initialContent}){
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -31,7 +31,7 @@ export default function RichTextEditor({onEditorReady}){
     content: '<p>Hello World! 🌎️</p>',
     editorProps:{
       attributes:{
-        class:"max-h-[300px] overflow-y-auto border rounder-md bg-slate-50 py-2 px-3",
+        class:"h-[200px] max-h-[400px] overflow-y-auto border rounder-md bg-slate-50 py-2 px-3",
       }
     },
 
@@ -40,6 +40,9 @@ export default function RichTextEditor({onEditorReady}){
   useEffect(() => {
     if (editor && onEditorReady) {
       onEditorReady(editor);
+      if (initialContent) {
+        editor.commands.setContent(initialContent);
+      }
     }
   }, [editor]);
 

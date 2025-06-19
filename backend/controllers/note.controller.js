@@ -44,7 +44,7 @@ const updateNotes = async (req,res)=> {
             return res.status(404).send({message:"note not found"});
         }
         const updatedNote = await Note.findById(id);
-        res.status(200).send(updatedNote);
+        res.status(200).send({success:true});
     }catch(error){
         res.status(500).send({message:error.message});
     }
