@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import {useState} from 'react';
 import AddNotes from "./AddNotes";
 
-export default function ViewNote({open,handleClose,note}){
+export default function ViewNote({open,handleClose,note,onNoteUpdate}){
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -13,20 +13,19 @@ export default function ViewNote({open,handleClose,note}){
     return(
         <>
             <Dialog open={open} onOpenChange={handleClose}>
-                <DialogContent className={"sm:max-w-[800px] max-h-[80vh] overflow-y-auto"}>
+                <DialogContent className={"sm:max-w-full max-h-[80vh] overflow-y-auto "}>
                     <DialogHeader>
-                        <DialogTitle>{note.title}</DialogTitle>
-                           
+                        <DialogTitle>{note.title}</DialogTitle>    
                     </DialogHeader>
 
-                    <div className="prose  max-w-full prose-sm mt-4 text-gray-800" dangerouslySetInnerHTML={{ __html: content }}/>
+                    <div className="prose  max-w-[800px] prose-sm mt-4 text-gray-800 " dangerouslySetInnerHTML={{ __html: content }}/>
                     <DialogFooter>
                         <Button onClick={() => {setIsDialogOpen(true); setIsEditing(true); setSelectedNote(note)}}>Edit</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
 
-            <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} isEditing={isEditing} noteToEdit={selectedNote} />
+            <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} isEditing={isEditing} noteToEdit={selectedNote} onNoteUpdated={onNoteUpdate}/>
         </>
     );
 };

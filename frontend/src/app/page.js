@@ -35,6 +35,9 @@ export default function Home() {
     }
   }
 
+  const handleNoteUpdate = () => {
+    fetchNotes();
+  }
 
   useEffect(() => {
     fetchNotes();
@@ -43,7 +46,7 @@ export default function Home() {
   return (
     <>
       <AppBar onAddClick={()=>{setIsDialogOpen(true)}} onSearch={(query)=>{searchNotes(query)}}/>
-      <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} onNoteSaved={()=>{fetchNotes(); setIsDialogOpen(false)}}/>
+      <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} onNoteSaved={()=>{fetchNotes(); setIsDialogOpen(false)}}  onNoteUpdated={()=>{fetchNotes()}}/>
       <div style={{ padding: "20px" }}>
         <h1>My Notes</h1>
         {notes.length === 0 ? (
@@ -51,7 +54,7 @@ export default function Home() {
         ) : (
           <div className='flex flex-wrap gap-2'>
             {notes.map((note) => (
-                <NoteCard key={note._id} note={note} onNoteDelete={()=>{fetchNotes()}}/>
+                <NoteCard key={note._id} note={note} onNoteDelete={()=>{fetchNotes()}} onNoteUpdate={()=>{fetchNotes()}}/>
             ))}
           </div>
         )}
