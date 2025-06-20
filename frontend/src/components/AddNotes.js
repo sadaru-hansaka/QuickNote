@@ -9,7 +9,7 @@ import {useState,useRef,useEffect} from 'react';
 import axios from 'axios';
 
 
-export default function AddNotes({open, handleClose,isEditing = false, noteToEdit = null, handleUpdate}){
+export default function AddNotes({open, handleClose,isEditing = false, noteToEdit = null, handleUpdate,onNoteSaved}){
 
     const [title, setTitle] = useState(noteToEdit?.title||'');
     const [editor, setEditor] = useState(null);
@@ -35,6 +35,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                     alert("Note updated successfully!");
                     // handleUpdate && handleUpdate(); // Optional: refresh list
                     handleClose();
+                    
                 }
             }else{
                 const res = await axios.post('http://localhost:3000/api/notes', {title, note:content});
@@ -44,6 +45,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                     setTitle('');
                     editor?.commands.clearContent();
                     handleClose();
+                    onNoteSaved();
                 }
             }
         }catch (error) {

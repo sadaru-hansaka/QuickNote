@@ -34,6 +34,19 @@ const getNotesById = async(req, res)=> {
     }
 }
 
+const getNotesByTitle = async(req, res)=> {
+    try{
+        const {title} = req.params;
+        const note = await Note.find({title: { $regex: title, $options: 'i' }});
+        if(!note){
+            return res.status(404).send({message:"note not found"});
+        }
+        res.status(200).send(note);
+    }catch(error){
+        res.status(500).send({message:error.message});
+    }
+}
+
 
 // update notes
 const updateNotes = async (req,res)=> {
@@ -66,4 +79,4 @@ const deletenotes = async (req, res)=> {
 }
 
 
-module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes};
+module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle};

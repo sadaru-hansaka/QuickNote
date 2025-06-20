@@ -1,10 +1,16 @@
 "use client";
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import AddNotes from './AddNotes';
+
 import { useState } from 'react';
 
-export default function AppBar() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+export default function AppBar({onAddClick, onSearch}) {
+
+  const [query, setQuery] = useState("");
+
+  const handleSearch = () => {
+    onSearch(query);
+  }
+  
   return (
     <>
       <header className="flex items-center justify-between p-4 bg-gray-50 text-black shadow-md">
@@ -14,14 +20,16 @@ export default function AppBar() {
             type="text"
             placeholder="Search notes by title or date ..."
             className="w-full px-3 py-1 outline-none"
+            value={query}
+            onChange={(e)=>{const newQuery = e.target.value; setQuery(newQuery); onSearch(newQuery)}}
           />
-          <MagnifyingGlassIcon className="h-5 w-5 cursor-pointer" />
+          <MagnifyingGlassIcon onClick={handleSearch} className="h-5 w-5 cursor-pointer" />
         </div>
         
-        <button className="bg-[#3B82F6] hover:bg-blue-700 px-2 py-1 rounded-md text-[#FFFFFF] cursor-pointer" onClick={() => setIsDialogOpen(true)}>+ New Note</button>
+        <button className="bg-[#3B82F6] hover:bg-blue-700 px-2 py-1 rounded-md text-[#FFFFFF] cursor-pointer" onClick={onAddClick}>+ New Note</button>
       </header>
 
-      <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} />
+      
     </>
   );
 }
