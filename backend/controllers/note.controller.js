@@ -3,7 +3,9 @@ const Note = require('../models/note.model')
 // create a note
 const createNote = async (req, res) => {
     try{
-        const note = await Note.create(req.body);
+
+        const { title, note } = req.body;
+        const newnote = await Note.create({title,note,user:req.user});
         res.status(200).send({success:true});
     }catch(error){
         res.status(500).send({message:error.message});
@@ -13,7 +15,7 @@ const createNote = async (req, res) => {
 // get all notes
 const getNotes = async (req,res) => {
     try{
-        const notes = await Note.find();
+        const notes = await Note.find({ user: req.user }).sort({ createdAt: -1 });
         res.status(200).send(notes)
     }catch(error){
         res.status(500).send({message:error.message});
@@ -28,6 +30,9 @@ const getNotesById = async(req, res)=> {
         if(!note){
             return res.status(404).send({message:"note not found"});
         }
+        if (note.user.toString() !== req.user) {
+            return res.status(403).send({ message: "Access denied" });
+        }
         res.status(200).send(note);
     }catch(error){
         res.status(500).send({message:error.message});
@@ -37,7 +42,7 @@ const getNotesById = async(req, res)=> {
 const getNotesByTitle = async(req, res)=> {
     try{
         const {title} = req.params;
-        const note = await Note.find({title: { $regex: title, $options: 'i' }});
+        const note = await Note.find({title: { $regex: title, $options: 'i' },  user: req.user});
         if(!note){
             return res.status(404).send({message:"note not found"});
         }
@@ -56,6 +61,9 @@ const updateNotes = async (req,res)=> {
         if(!note){
             return res.status(404).send({message:"note not found"});
         }
+        if (note.user.toString() !== req.user) {
+            return res.status(403).send({ message: "Access denied" });
+        }
         const updatedNote = await Note.findById(id);
         res.status(200).send({success:true});
     }catch(error){
@@ -71,6 +79,9 @@ const deletenotes = async (req, res)=> {
         const note=await Note.findByIdAndDelete(id);
         if(!note){
             return res.status(404).send({message:"Note not found"});
+        }
+        if (note.user.toString() !== req.user) {
+            return res.status(403).send({ message: "Access denied" });
         }
         res.status(200).send({success:true});
     }catch(error){
