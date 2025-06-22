@@ -8,11 +8,34 @@ import AddNotes from '@/components/AddNotes';
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // const [searchResults, setSearchResults] = useState(false);
+  const [user,setUser] = useState(null);
 
-  const fetchNotes = async ()=> {
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user?.token) {
+      fetchNotes(user.token);
+    }
+  }, [user]);
+
+  const fetchNotes = async (token)=> {
     try{
-      const res = await axios.get('http://localhost:3000/api/notes');
+      if (!token) {
+        console.error("No token found. Please log in.");
+        return;
+      }
+
+      const res = await axios.get('http://localhost:3000/api/notes',{
+          headers:{
+            Authorization: token
+          }
+      });
+
       console.log(res.data)
       setNotes(res.data)
     }catch(err){
@@ -20,14 +43,18 @@ export default function Home() {
     }
   }
 
-  const searchNotes = async (query) => {
+  const searchNotes = async (query,token) => {
     if(!query.trim()){
-      fetchNotes();
+      fetchNotes(user?.token);
       return;
     }
 
     try{
-      const res = await axios.get(`http://localhost:3000/api/notes/search/${query}`);
+      const res = await axios.get(`http://localhost:3000/api/notes/search/${query}`,{
+        headers:{
+            Authorization: token
+          }
+      });
       console.log(res.data)
       setNotes(res.data);
     }catch (err) {
@@ -36,17 +63,18 @@ export default function Home() {
   }
 
   const handleNoteUpdate = () => {
-    fetchNotes();
+    fetchNotes(user?.token);
   }
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+  // useEffect(() => {
+  //   fetchNotes();
+  // }, []);
+
 
   return (
     <>
-      <AppBar onAddClick={()=>{setIsDialogOpen(true)}} onSearch={(query)=>{searchNotes(query)}}/>
-      <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} onNoteSaved={()=>{fetchNotes(); setIsDialogOpen(false)}}  onNoteUpdated={()=>{fetchNotes()}}/>
+      <AppBar onAddClick={()=>{setIsDialogOpen(true)}} onSearch={(query)=>{searchNotes(query, user?.token)}}/>
+      <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} onNoteSaved={()=>{fetchNotes(user?.token); setIsDialogOpen(false)}}  onNoteUpdated={()=>{fetchNotes(user?.token)}}/>
       <div style={{ padding: "20px" }}>
         <h1>My Notes</h1>
         {notes.length === 0 ? (
@@ -54,7 +82,7 @@ export default function Home() {
         ) : (
           <div className='flex flex-wrap gap-2'>
             {notes.map((note) => (
-                <NoteCard key={note._id} note={note} onNoteDelete={()=>{fetchNotes()}} onNoteUpdate={()=>{fetchNotes()}}/>
+                <NoteCard key={note._id} note={note} onNoteDelete={()=>{fetchNotes(user?.token)}} onNoteUpdate={()=>{fetchNotes(user?.token)}}/>
             ))}
           </div>
         )}

@@ -1,6 +1,6 @@
 "use client";
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function AppBar({onAddClick, onSearch}) {
@@ -25,8 +25,11 @@ export default function AppBar({onAddClick, onSearch}) {
           />
           <MagnifyingGlassIcon onClick={handleSearch} className="h-5 w-5 cursor-pointer" />
         </div>
+        <div className='flex items-end justify-end gap-2'>
+          <button className="bg-[#3B82F6] hover:bg-blue-700 px-2 py-1 rounded-md text-[#FFFFFF] cursor-pointer" onClick={onAddClick}>+ New Note</button>
+          <Link href={"/login"} >Sign in</Link>
+        </div>
         
-        <button className="bg-[#3B82F6] hover:bg-blue-700 px-2 py-1 rounded-md text-[#FFFFFF] cursor-pointer" onClick={onAddClick}>+ New Note</button>
       </header>
 
       
