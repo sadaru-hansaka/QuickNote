@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function AppBar({onAddClick, onSearch}) {
+export default function AppBar({onAddClick, onSearch,user,logout}) {
 
   const [query, setQuery] = useState("");
 
@@ -27,7 +27,12 @@ export default function AppBar({onAddClick, onSearch}) {
         </div>
         <div className='flex items-end justify-end gap-2'>
           <button className="bg-[#3B82F6] hover:bg-blue-700 px-2 py-1 rounded-md text-[#FFFFFF] cursor-pointer" onClick={onAddClick}>+ New Note</button>
-          <Link href={"/login"} >Sign in</Link>
+          {!user ? (
+            <Link href={"/login"} className='px-2 py-1 rounded-md text-[#595a5c] cursor-pointer'>Sign in</Link>
+          ):(
+            <p className='px-2 py-1 rounded-md text-[#595a5c] cursor-pointer' onClick={logout}>Logout</p>
+          )}
+          
         </div>
         
       </header>

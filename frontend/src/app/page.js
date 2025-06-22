@@ -4,11 +4,14 @@ import {useEffect, useState} from 'react';
 import AppBar from '@/components/AppBar';
 import NoteCard from '@/components/NoteCard';
 import AddNotes from '@/components/AddNotes';
+import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [user,setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -66,14 +69,17 @@ export default function Home() {
     fetchNotes(user?.token);
   }
 
-  // useEffect(() => {
-  //   fetchNotes();
-  // }, []);
-
+  const handleLogout = () => {
+    // Clear token and user info from localStorage
+    localStorage.removeItem('user');
+    setUser(null);
+    setNotes([]);
+    router.push('/');
+  };
 
   return (
     <>
-      <AppBar onAddClick={()=>{setIsDialogOpen(true)}} onSearch={(query)=>{searchNotes(query, user?.token)}}/>
+      <AppBar onAddClick={()=>{setIsDialogOpen(true)}} onSearch={(query)=>{searchNotes(query, user?.token)}} user={user} logout={handleLogout}/>
       <AddNotes open={isDialogOpen} handleClose={() => setIsDialogOpen(false)} onNoteSaved={()=>{fetchNotes(user?.token); setIsDialogOpen(false)}}  onNoteUpdated={()=>{fetchNotes(user?.token)}}/>
       <div style={{ padding: "20px" }}>
         <h1>My Notes</h1>

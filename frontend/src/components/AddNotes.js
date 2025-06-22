@@ -24,11 +24,18 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
         const content = editor?.getHTML();
         console.log(content);
 
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user?.token;
+
         try{
             if(isEditing && noteToEdit){
                 const res = await axios.put(`http://localhost:3000/api/notes/${noteToEdit._id}`, {
                     title,
                     note: content
+                },{
+                    headers: {
+                        Authorization: token,
+                    },
                 });
                 if (res.data.success) {
                     alert("Note updated successfully!");
@@ -36,7 +43,11 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                     onNoteUpdated();
                 }
             }else{
-                const res = await axios.post('http://localhost:3000/api/notes', {title, note:content});
+                const res = await axios.post('http://localhost:3000/api/notes', {title, note:content},{
+                    headers: {
+                        Authorization: token,
+                    },
+                });
 
                 if (res.data.success) {
                     alert('Saved Successfully !');

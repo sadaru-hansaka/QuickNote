@@ -13,9 +13,15 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
 
     // delete notes
     const handleDelete = async () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user?.token;
         try{
             // console.log({note._id});
-            const res = await axios.delete(`http://localhost:3000/api/notes/${note._id}`);
+            const res = await axios.delete(`http://localhost:3000/api/notes/${note._id}`,{
+                headers:{
+                    Authorization: token,
+                }
+            });
             if(res.data.success){
                 alert('Note deleted!');
                 onNoteDelete();

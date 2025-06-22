@@ -1,9 +1,24 @@
 import { Toggle } from '@radix-ui/react-toggle';
 import { AlignCenter, AlignLeft, AlignRight, Bold, Heading1, Heading2, Heading3, Highlighter, Italic, List, ListOrdered, Strikethrough } from 'lucide-react';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Editor } from "@tiptap/react";
 
 export default function MenuBArRichText({editor}){
+    const [, setRefresh] = useState(false);
+
+    useEffect(() => {
+        if (!editor) return;
+
+        const update = () => setRefresh(prev => !prev);
+        editor.on('selectionUpdate', update);
+        editor.on('transaction', update);
+
+        return () => {
+            editor.off('selectionUpdate', update);
+            editor.off('transaction', update);
+        };
+    }, [editor]);
+
     if (!editor) {
         return null
     }
@@ -72,12 +87,13 @@ export default function MenuBArRichText({editor}){
     ]
 
     return (
-        <div className='border rounded-md p-1 mb-1 bg-slate-50 space-x-2 z-50'>
+        <div className='border rounded-md p-1 mb-1 bg-slate-50 space-x-5 z-50'>
             {Options.map((option, index) => (
                 <Toggle
                     key={index}
                     pressed={option.pressed}
                     onPressedChange={option.onClick}
+                    className="data-[state=on]:bg-gray-500 rounded p-1"
                 >
                     {option.icon}
                 </Toggle>
