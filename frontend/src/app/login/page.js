@@ -4,6 +4,11 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+
 export default function Login(){
     const [formData, setFormData] = useState({ email: '', password: '' });
     const router = useRouter();
@@ -29,11 +34,46 @@ export default function Login(){
     };
 
     return(
-        <form onSubmit={handleSubmit} className='p-4 flex flex-col gap-2'>
-            <input name="email" placeholder="Email" onChange={handleChange}/>
-            <input name="password" placeholder="Password" type="password"  onChange={handleChange}/>
-            <button type="submit">Login</button>
-            <p>Don't have an account? <Link href='/register'>Sign up</Link></p>
-        </form>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+            <Card className="w-full max-w-md shadow-lg">
+                <CardHeader>
+                    <CardTitle className="text-2xl">Login</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <div className="grid w-full items-center gap-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            onChange={handleChange}
+                            required
+                        />
+                        </div>
+                        <div className="grid w-full items-center gap-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="••••••••"
+                            onChange={handleChange}
+                            required
+                        />
+                        </div>
+                        <Button type="submit" className="w-full">
+                        Sign In
+                        </Button>
+                    </form>
+                    <p className="text-sm text-center text-muted-foreground mt-4">
+                        Don&apos;t have an account?{' '}
+                        <Link href="/register" className="text-blue-600 hover:underline">
+                        Sign up
+                        </Link>
+                    </p>
+                </CardContent>
+            </Card>
+        </div>
     );
 }
