@@ -13,7 +13,7 @@ export default function ViewNote({open,handleClose,note,onNoteUpdate}){
     return(
         <>
             <Dialog open={open} onOpenChange={handleClose}>
-                <DialogContent className={"sm:max-w-full max-h-[80vh] overflow-y-auto"}>
+                <DialogContent className={"sm:max-w-[50vw] max-h-[80vh] overflow-y-auto"}>
                     <DialogHeader>
                         <DialogTitle>{note.title}</DialogTitle>    
                     </DialogHeader>
