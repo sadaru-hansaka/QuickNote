@@ -13,11 +13,29 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
 
     const [title, setTitle] = useState(noteToEdit?.title||'');
     const [editor, setEditor] = useState(null);
+    const [categories, setCategories]=useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
     // const editorRef = useRef();
 
     useEffect(() => {
         setTitle(noteToEdit?.title || '');
     }, [noteToEdit]);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const fetchCategories = async () => {
+            try {
+                const res = await axios.get('http://localhost:3000/api/category');
+                setCategories(res.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, [open]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +49,8 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
             if(isEditing && noteToEdit){
                 const res = await axios.put(`http://localhost:3000/api/notes/${noteToEdit._id}`, {
                     title,
-                    note: content
+                    note: content,
+                    categoryID:selectedCategory,
                 },{
                     headers: {
                         Authorization: token,
@@ -43,7 +62,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                     onNoteUpdated();
                 }
             }else{
-                const res = await axios.post('http://localhost:3000/api/notes', {title, note:content},{
+                const res = await axios.post('http://localhost:3000/api/notes', {title, note:content,categoryID:selectedCategory},{
                     headers: {
                         Authorization: token,
                     },
@@ -85,18 +104,17 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="category-1">Category</Label>
-                                <Select>
+                                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                                     <SelectTrigger className="w-[180px]">
                                         <SelectValue placeholder="Select a category" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                        <SelectLabel>Fruits</SelectLabel>
-                                        <SelectItem value="apple">Science</SelectItem>
-                                        <SelectItem value="banana">Maths</SelectItem>
-                                        <SelectItem value="blueberry">English</SelectItem>
-                                        <SelectItem value="grapes">History</SelectItem>
-                                        <SelectItem value="pineapple">I.C.T</SelectItem>
+                                            {categories.map((cat) => (
+                                                <SelectItem key={cat._id} value={cat._id}>
+                                                    {cat.name}
+                                                </SelectItem>
+                                            ))}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>

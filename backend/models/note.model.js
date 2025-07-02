@@ -14,6 +14,11 @@ const noteShema = mongoose.Schema(
             type:Date,
             default:Date.now
         },
+        categoryID:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Category',
+            required: true
+        },
         user:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "User", 

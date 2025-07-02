@@ -3,9 +3,8 @@ const Note = require('../models/note.model')
 // create a note
 const createNote = async (req, res) => {
     try{
-
-        const { title, note } = req.body;
-        const newnote = await Note.create({title,note,user:req.user});
+        const { title, note,categoryID } = req.body;
+        const newnote = await Note.create({title,note,categoryID,user:req.user});
         res.status(200).send({success:true});
     }catch(error){
         res.status(500).send({message:error.message});

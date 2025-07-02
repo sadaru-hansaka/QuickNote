@@ -23,6 +23,17 @@ const getAllCategories = async (req, res)=>{
     }
 }
 
+// get categories by id
+const getCategory = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const category = await Category.findById(id);
+        res.status(200).send({category});
+    }catch(error){
+         res.status(500).send({message:error.message});
+    }
+}
+
 const deleteCategories = async (req,res)=>{
     try{
         const {id} = req.params;
@@ -33,4 +44,4 @@ const deleteCategories = async (req,res)=>{
     }
 }
 
-module.exports = {createCategory,getAllCategories};
+module.exports = {createCategory,getAllCategories,getCategory};
