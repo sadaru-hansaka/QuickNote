@@ -7,7 +7,8 @@ import {Select,SelectContent,SelectGroup,SelectItem,SelectLabel,SelectTrigger,Se
 import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
 import {useState,useRef,useEffect} from 'react';
 import axios from 'axios';
-
+import { ExternalLink} from 'lucide-react';
+import Link from 'next/link';
 
 export default function AddNotes({open, handleClose,isEditing = false, noteToEdit = null,onNoteSaved=()=>{},onNoteUpdated=()=>{}}){
 
@@ -104,20 +105,23 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="category-1">Category</Label>
-                                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                                    <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Select a category" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {categories.map((cat) => (
-                                                <SelectItem key={cat._id} value={cat._id}>
-                                                    {cat.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <div className="flex items-center gap-5">
+                                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                                        <SelectTrigger className="w-[180px]">
+                                            <SelectValue placeholder="Select a category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {categories.map((cat) => (
+                                                    <SelectItem key={cat._id} value={cat._id}>
+                                                        {cat.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <Link href={'/categories'} className="flex text-sm items-center text-gray-500 ">Add Categories <ExternalLink size={16} className="ml-2"/></Link>
+                                </div>
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="username-1">Note Content</Label>

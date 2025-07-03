@@ -8,7 +8,7 @@ const createCategory = async(req,res)=>{
 
 
         const category = await Category.create(({name}));
-        res.status(200).send({message:true});
+        res.status(200).send({success:true});
     }catch(error){
         res.status(500).send({message:error.message});
     }
@@ -44,4 +44,4 @@ const deleteCategories = async (req,res)=>{
     }
 }
 
-module.exports = {createCategory,getAllCategories,getCategory};
+module.exports = {createCategory,getAllCategories,getCategory,deleteCategories};
