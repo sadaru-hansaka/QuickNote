@@ -28,7 +28,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
         const fetchCategory=async()=>{
             try{
                 const res = await axios.get(`http://localhost:3000/api/category/${note.categoryID}`);
-                setCategory(res.data.category.name);
+                setCategory(res.data?.category?.name || "Unknown Category");
             }catch (error) {
                 console.error('Error fetching categories:', error);
             }
