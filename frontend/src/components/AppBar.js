@@ -13,7 +13,7 @@ export default function AppBar({onAddClick, onSearch,user,logout}) {
   
   return (
     <>
-      <header className="flex items-center justify-between p-4 bg-gray-50 text-black shadow-md">
+      <header className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between p-4 bg-gray-50 text-black shadow-md h-16">
         <h1 className="text-xl font-semibold">QuickNotes</h1>
         <div className='flex w-1/3 items-center border text-[#595a5c] border-gray-400 rounded-md px-3 py-1'>
           <input

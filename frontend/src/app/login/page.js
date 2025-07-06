@@ -9,9 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
+import { useNotes } from '@/components/context/NoteContext';
+
 export default function Login(){
     const [formData, setFormData] = useState({ email: '', password: '' });
     const router = useRouter();
+
+    const { loginUser } = useNotes();
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
@@ -21,10 +25,13 @@ export default function Login(){
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:3000/api/user/login', formData);
-            localStorage.setItem('user', JSON.stringify({
+            const userData = {
                 token: res.data.token,
                 ...res.data.user
-            }));
+            };
+
+            localStorage.setItem('user', JSON.stringify(userData));
+            loginUser(userData);
             alert("Succeesully signed in !");
             router.push('/');
         } catch (err) {

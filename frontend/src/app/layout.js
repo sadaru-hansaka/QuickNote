@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import AppBar from "@/components/AppBar";
+import AppWrapper from "@/components/AppWrapper";
 import { SidebarProvider } from "@/components/ui/sidebar";
-
+import AppBar from "@/components/AppBar";
 import { AppSidebar } from "../components/sidebar"
 
 const geistSans = Geist({
@@ -24,29 +24,23 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="flex min-h-screen flex-col">
-          {/* <AppBar
-            onAddClick={() => {}}
-            onSearch={() => {}}
-            user={null}
-            logout={() => {}}
-          /> */}
-        
-          {/* {children} */}
-          <div>
-            <SidebarProvider>
-              <div className="flex min-h-screen min-w-screen">
+        <AppWrapper>
+          <SidebarProvider>
+            <div className="flex flex-col min-h-screen pt-16">
+              
+              {/* Sidebar + Main Content */}
+              <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar on the left */}
                 <AppSidebar />
 
-                {/* Main content on the right */}
-                <main className="flex-1 p-4">
+                {/* Main content area */}
+                <main className="flex-1 p-4 overflow-y-auto">
                   {children}
                 </main>
               </div>
-            </SidebarProvider>
-          </div>
-        </div>
+            </div>
+          </SidebarProvider>
+        </AppWrapper>
       </body>
     </html>
   );
