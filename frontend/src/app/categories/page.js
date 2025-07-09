@@ -52,14 +52,14 @@ export default function Categories(){
     }, []);
 
     return(
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
-            <div className="p-4 w-[45vw]">
+        <div className="flex flex-col items-center justify-center bg-gray-100 px-4 w-full">
+            <div className="p-4">
                 <h1>Add New Category</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="flex w-full items-center gap-2 mt-5 mb-10">
                         <Input type="text" placeholder="Category Name" value={category} onChange={(e) => setCategory(e.target.value)} required />
-                        <Button type="submit" variant="outline" className={"cursor-pointer"}>
-                            Add Category
+                        <Button type="submit" variant="outline" className={" bg-[#3B82F6]  hover:bg-blue-700 rounded-md text-[#FFFFFF] px-2 py-1 cursor-pointer"}>
+                            + Add Category
                         </Button>
                     </div>
                 </form>

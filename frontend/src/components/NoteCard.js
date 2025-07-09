@@ -61,7 +61,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
 
     return(
         <>
-            <div onClick={()=>setDialogOpen(true)} className="relative bg-white pt-1 p-4 rounded-xl shadow-sm border w-73 h-38 cursor-pointer">
+            <div onClick={()=>setDialogOpen(true)} className="relative bg-white pt-1 p-4 rounded-xl shadow-sm border w-72 h-38 cursor-pointer">
 
                  <div className="absolute top-2 right-3" ref={menuRef}>
                     <button onClick={(e) => { e.stopPropagation(); setMenuOpen(!menuOpen); }}>
