@@ -88,5 +88,22 @@ const deletenotes = async (req, res)=> {
     }
 }
 
+// PUT /api/notes/:id/favorite
+const toggleFavorite = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const note = await Note.findById(id);
 
-module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle};
+        if (!note) return res.status(404).json({ message: "Note not found" });
+
+        note.favorite = !note.favorite; // toggle
+        await note.save();
+
+        res.status(200).json({ success: true, favorite: note.favorite });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+
+module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle,toggleFavorite};

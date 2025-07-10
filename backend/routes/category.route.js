@@ -8,4 +8,5 @@ router.get('/',auth,getAllCategories);
 router.get('/:id',getCategory);
 router.delete('/:id',deleteCategories);
 
+
 module.exports = router;

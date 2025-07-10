@@ -78,7 +78,7 @@ export default function Categories(){
     // }, []);
 
     return(
-        <div className="w-[80vw] bg-gray-100 px-4">
+        <div className="w-[81vw] bg-gray-100 px-4">
             <div className="max-w-4xl mx-auto p-4">
                 <h1>Add New Category</h1>
                 <form onSubmit={handleSubmit}>

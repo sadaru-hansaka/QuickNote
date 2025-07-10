@@ -2,6 +2,8 @@ import { MoreHorizontal,Trash,Edit } from 'lucide-react';
 import axios from 'axios';
 import {useState,useEffect,useRef} from 'react';
 import ViewNote from './ViewNote';
+import { Star } from "lucide-react";
+
 
 export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
     const content = note.note;
@@ -57,6 +59,29 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
         }
     }
 
+    const toggleFavorite = async () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const token = user?.token;
+
+        try {
+            const res = await axios.put(`http://localhost:3000/api/notes/${note._id}/favorite`,
+                {},
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                }
+            );
+
+            if (res.data.success) {
+                onNoteUpdate(); // or fetchNotes(); — refresh the state
+            }
+        } catch (error) {
+            console.error("Failed to toggle favorite:", error);
+        }
+    };
+
+
     const [dialogOpen, setDialogOpen] = useState(false);
 
     return(
@@ -92,8 +117,11 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
                 <h3 className="text-lg font-semibold">{note.title}</h3>
                 <p className="text-sm text-gray-600 mt-2" dangerouslySetInnerHTML={{ __html: preview }}/>
                 <div className='absolute bottom-2 left-0 w-full px-4 flex justify-between'>
-                    <p className="text-sm text-gray-600 mt-2">{category}</p>
-                    <small className="text-sm text-gray-400 block mt-2">{date}</small>
+                    <p className="text-sm text-gray-600">{category}</p>
+                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                        <Star size={18} className={`${note.favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`} onClick={(e) => {e.stopPropagation(); toggleFavorite();}}/>
+                        <small className="text-sm text-gray-400 block">{date}</small>
+                    </div>
                 </div>
             </div>
             <ViewNote open={dialogOpen} handleClose={()=> setDialogOpen(false)} note={note} onNoteUpdate={onNoteUpdate}/>

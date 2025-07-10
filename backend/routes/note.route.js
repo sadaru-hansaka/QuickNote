@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Note = require('../models/note.model');
 const auth = require("../middleware/auth");
-const {createNote, getNotes, getNotesById,updateNotes,deletenotes,getNotesByTitle} = require('../controllers/note.controller');
+const {createNote, getNotes, getNotesById,updateNotes,deletenotes,getNotesByTitle,toggleFavorite} = require('../controllers/note.controller');
 
 // create notes
 router.post('/',auth, createNote);
@@ -15,5 +15,8 @@ router.get('/search/:title',auth,getNotesByTitle);
 router.put('/:id',auth, updateNotes);
 // delete
 router.delete('/:id',auth, deletenotes)
+
+router.put('/:id/favorite', auth, toggleFavorite);
+
 
 module.exports = router;

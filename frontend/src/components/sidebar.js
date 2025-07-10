@@ -27,7 +27,7 @@ const items = [
   },
   {
     title: "Favourites",
-    url: "#",
+    url: "/fav",
     icon: Star,
   },
   {

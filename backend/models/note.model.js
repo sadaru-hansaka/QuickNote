@@ -23,6 +23,10 @@ const noteShema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User", 
             required: true 
+        },
+        favorite: {
+            type: Boolean,
+            default: false
         }
     },
     {
