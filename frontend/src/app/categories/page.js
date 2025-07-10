@@ -8,15 +8,34 @@ import { Trash } from "lucide-react";
 export default function Categories(){
     const[category,setCategory]=useState('');
     const [categories, setCategories]=useState([]);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+            fetchCategories(parsedUser.token); // fetch after loading user
+        }
+    }, []);
+
 
     const handleSubmit = async (e)=>{
-         e.preventDefault();
+        e.preventDefault();
+
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user?.token;
+
         try{
-            const res = await axios.post('http://localhost:3000/api/category',{name:category});
+            const res = await axios.post('http://localhost:3000/api/category',{name:category},{
+                headers: {
+                    Authorization: token,
+                },
+            });
             if(res.data.success){
                 alert("Done")
                 setCategory(""); 
-                fetchCategories(); 
+                fetchCategories(token); 
             }
         }catch(error){
             console.log(error);
@@ -24,9 +43,12 @@ export default function Categories(){
         }
     }
 
-    const fetchCategories = async () => {
+    const fetchCategories = async (token) => {
         try {
-            const res = await axios.get('http://localhost:3000/api/category');
+            if(!token) return;
+            const res = await axios.get('http://localhost:3000/api/category',{
+                headers: { Authorization: token },
+            });
             setCategories(res.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -36,9 +58,13 @@ export default function Categories(){
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to delete this category?")) return;
         try {
-            const res = await axios.delete(`http://localhost:3000/api/category/${id}`);
+            const res = await axios.delete(`http://localhost:3000/api/category/${id}`,{
+                headers: {
+                    Authorization: user.token,
+                },
+            });
             if (res.data.success) {
-                fetchCategories();
+                fetchCategories(user.token);
             }
         } catch (error) {
             console.error("Delete failed", error);
@@ -47,13 +73,13 @@ export default function Categories(){
     };
 
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
+    // useEffect(() => {
+    //     fetchCategories();
+    // }, []);
 
     return(
-        <div className="flex flex-col items-center justify-center bg-gray-100 px-4 w-full">
-            <div className="p-4">
+        <div className="w-[80vw] bg-gray-100 px-4">
+            <div className="max-w-4xl mx-auto p-4">
                 <h1>Add New Category</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="flex w-full items-center gap-2 mt-5 mb-10">

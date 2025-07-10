@@ -3,11 +3,11 @@ const Category = require('../models/category.model');
 const createCategory = async(req,res)=>{
     try{
         const {name} = req.body;
-        const existing = await Category.findOne({ name });
+        const existing = await Category.findOne({ name, user: req.user });
         if (existing) return res.status(400).json({ error: 'Category already exists' });
 
 
-        const category = await Category.create(({name}));
+        const category = await Category.create(({name, user: req.user}));
         res.status(200).send({success:true});
     }catch(error){
         res.status(500).send({message:error.message});
@@ -16,7 +16,7 @@ const createCategory = async(req,res)=>{
 
 const getAllCategories = async (req, res)=>{
     try{
-        const categories = await Category.find();
+        const categories = await Category.find({user:req.user});
         res.status(200).send(categories);
     }catch(error){
         res.status(500).send({message:error.message});

@@ -16,6 +16,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
     const [editor, setEditor] = useState(null);
     const [categories, setCategories]=useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [user, setUser] = useState(null);
     // const editorRef = useRef();
 
     useEffect(() => {
@@ -24,17 +25,24 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
 
     useEffect(() => {
         if (!open) return;
+        const storedUser = localStorage.getItem('user');
 
-        const fetchCategories = async () => {
+        const fetchCategories = async (token) => {
             try {
-                const res = await axios.get('http://localhost:3000/api/category');
+                const res = await axios.get('http://localhost:3000/api/category',{
+                    headers: { Authorization: token },
+                });
                 setCategories(res.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
         };
 
-        fetchCategories();
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+            fetchCategories(parsedUser.token); // fetch after loading user
+        }
     }, [open]);
 
 
