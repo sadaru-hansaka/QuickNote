@@ -117,7 +117,24 @@ const getFavoriteNotes = async (req, res) => {
     }
 };
 
+// GET /api/notes/recent
+const getRecentNotes = async (req, res) => {
+    try {
+        const oneDayAgo = new Date();
+        oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+        const recentNotes = await Note.find({
+            user: req.user,
+            createdAt: { $gte: oneDayAgo }
+        }).sort({ createdAt: -1 });
+
+        res.status(200).json(recentNotes);
+    } catch (error) {
+        console.error("Error fetching recent notes:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
 
 
 
-module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle,toggleFavorite,getFavoriteNotes};
+module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle,toggleFavorite,getFavoriteNotes,getRecentNotes};

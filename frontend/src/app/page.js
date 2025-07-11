@@ -25,9 +25,9 @@ export default function Home() {
         onNoteUpdated={() => fetchNotes(user?.token)}
       />
       <div style={{ padding: '20px' }}>
-        <h1>My Notes</h1>
+        <h1 className="text-2xl font-bold mb-6">My Notes</h1>
         {notes.length === 0 ? (
-          <p>No notes found.</p>
+          <p className="text-gray-500">No notes found.</p>
         ) : (
           <div className="flex flex-wrap gap-2">
             {notes.map((note) => (
