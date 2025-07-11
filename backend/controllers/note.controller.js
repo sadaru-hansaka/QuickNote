@@ -106,4 +106,18 @@ const toggleFavorite = async (req, res) => {
 };
 
 
-module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle,toggleFavorite};
+// GET /api/notes/favorites
+const getFavoriteNotes = async (req, res) => {
+    try {
+        const favorites = await Note.find({ user: req.user, favorite: true }).sort({ createdAt: -1 });
+        res.status(200).json(favorites);
+    } catch (error) {
+        console.error("Error fetching favorites:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+
+module.exports = {createNote,getNotes, getNotesById,updateNotes,deletenotes, getNotesByTitle,toggleFavorite,getFavoriteNotes};
