@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import AppBar from "@/components/AppBar";
 import { AppSidebar } from "../components/sidebar";
 import { usePathname } from 'next/navigation';
+import { NotesProvider } from "@/components/context/NoteContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,30 +29,32 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AppWrapper>
-          <SidebarProvider>
-            {/* Main container with app bar height offset */}
-            <div className="flex flex-col min-h-screen">
-              {/* This empty div accounts for the fixed app bar space */}
-              <div className="h-16"></div>
-              
-              {/* Content area that will contain sidebar + main content */}
-              <div className="flex flex-1 overflow-hidden">
-                {!isAuthPage && (
-                  <div className="h-[calc(100vh-4rem)] overflow-y-auto">
-                    <AppSidebar />
-                  </div>
-                )}
+      <body className={`"bg-[#FFFFFF]" ${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <NotesProvider>
+          <AppWrapper>
+            <SidebarProvider>
+              {/* Main container with app bar height offset */}
+              <div className="flex flex-col min-h-screen">
+                {/* This empty div accounts for the fixed app bar space */}
+                <div className="h-16"></div>
+                
+                {/* Content area that will contain sidebar + main content */}
+                <div className="flex flex-1 overflow-hidden">
+                  {!isAuthPage && (
+                    <div className="h-[calc(100vh-4rem)] overflow-y-auto">
+                      <AppSidebar />
+                    </div>
+                  )}
 
-                {/* Main content area */}
-                <main className="flex-1 p-4 overflow-y-auto ml-[sidebar-width]">
-                  {children}
-                </main>
+                  {/* Main content area */}
+                  <main className="flex-1 p-4 overflow-y-auto flex">
+                    {children}
+                  </main>
+                </div>
               </div>
-            </div>
-          </SidebarProvider>
-        </AppWrapper>
+            </SidebarProvider>
+          </AppWrapper>
+        </NotesProvider>
       </body>
     </html>
   );

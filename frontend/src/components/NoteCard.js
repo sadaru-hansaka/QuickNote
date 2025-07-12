@@ -14,6 +14,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
     const menuRef = useRef(null);
 
     const[category,setCategory]=useState('');
+    const [cat,setCat]=useState([]);
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -31,6 +32,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
             try{
                 const res = await axios.get(`http://localhost:3000/api/category/${note.categoryID}`);
                 setCategory(res.data?.category?.name || "Unknown Category");
+                setCat(res.data?.category?.color)
             }catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -86,7 +88,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
 
     return(
         <>
-            <div onClick={()=>setDialogOpen(true)} className="relative bg-white pt-1 p-4 rounded-xl shadow-sm border w-71 h-38 cursor-pointer">
+            <div onClick={()=>setDialogOpen(true)} className="relative bg-[#F9FAFB] pt-1 p-4 rounded-xl shadow-sm border w-71 h-38 cursor-pointer">
 
                  <div className="absolute top-2 right-3" ref={menuRef}>
                     <button onClick={(e) => { e.stopPropagation(); setMenuOpen(!menuOpen); }}>
@@ -117,7 +119,10 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
                 <h3 className="text-lg font-semibold">{note.title}</h3>
                 <p className="text-sm text-gray-600 mt-2" dangerouslySetInnerHTML={{ __html: preview }}/>
                 <div className='absolute bottom-2 left-0 w-full px-4 flex justify-between'>
-                    <p className="text-sm text-gray-600">{category}</p>
+                    <div className="flex items-center gap-1 text-sm text-gray-400">
+                        <span className="h-4 w-4 rounded-full" style={{ backgroundColor: cat || '#DCC5B2' }} />
+                        <p className="text-sm text-gray-600">{category}</p>
+                    </div>
                     <div className="flex items-center gap-2 text-sm text-gray-400">
                         <Star size={18} className={`${note.favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`} onClick={(e) => {e.stopPropagation(); toggleFavorite();}}/>
                         <small className="text-sm text-gray-400 block">{date}</small>

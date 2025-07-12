@@ -41,7 +41,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
-            fetchCategories(parsedUser.token); // fetch after loading user
+            fetchCategories(parsedUser.token);
         }
     }, [open]);
 

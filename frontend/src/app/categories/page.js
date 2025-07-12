@@ -4,11 +4,15 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import {useState,useEffect} from 'react';
 import { Trash } from "lucide-react";
+import { HexColorPicker } from "react-colorful";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export default function Categories(){
     const[category,setCategory]=useState('');
     const [categories, setCategories]=useState([]);
     const [user, setUser] = useState(null);
+
+    const [color, setColor] = useState("#000000")
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -27,13 +31,13 @@ export default function Categories(){
         const token = user?.token;
 
         try{
-            const res = await axios.post('http://localhost:3000/api/category',{name:category},{
+            const res = await axios.post('http://localhost:3000/api/category',{name:category,color},{
                 headers: {
                     Authorization: token,
                 },
             });
             if(res.data.success){
-                alert("Done")
+                alert("Categiry added successfully")
                 setCategory(""); 
                 fetchCategories(token); 
             }
@@ -73,10 +77,6 @@ export default function Categories(){
     };
 
 
-    // useEffect(() => {
-    //     fetchCategories();
-    // }, []);
-
     return(
         <div className="w-[81vw] bg-gray-100 px-4">
             <div className="max-w-4xl mx-auto p-4">
@@ -84,11 +84,18 @@ export default function Categories(){
                 <form onSubmit={handleSubmit}>
                     <div className="flex w-full items-center gap-2 mt-5 mb-10">
                         <Input type="text" placeholder="Category Name" value={category} onChange={(e) => setCategory(e.target.value)} required />
-                        <Button type="submit" variant="outline" className={" bg-[#3B82F6]  hover:bg-blue-700 rounded-md text-[#FFFFFF] px-2 py-1 cursor-pointer"}>
+                        <Popover>
+                            <PopoverTrigger className="h-8 w-8 rounded-full border" style={{ backgroundColor: color }} />
+                            <PopoverContent className="w-fit">
+                                <HexColorPicker color={color} onChange={setColor} />
+                            </PopoverContent>
+                        </Popover>
+                        <Button type="submit" variant="outline" className={" bg-[#18181B]  hover:bg-[#333335] rounded-md text-[#FFFFFF] px-2 py-1 cursor-pointer"}>
                             + Add Category
                         </Button>
                     </div>
                 </form>
+                
                 <h1>Current Categories</h1>
                 <div className="flex flex-wrap gap-5 mt-5">
                     {categories.map((cat) => (
@@ -96,7 +103,7 @@ export default function Categories(){
                             <p className="text-gray-800 font-medium">{cat.name}</p>
                             <button
                                 onClick={() => handleDelete(cat._id)}
-                                className="absolute top-5 right-2 text-gray-500 hover:text-red-600 cursor-pointer"
+                                className="absolute top-5 right-2 text-red-500 hover:text-red-600 cursor-pointer"
                             >
                                 <Trash size={18} />
                             </button>

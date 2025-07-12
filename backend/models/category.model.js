@@ -5,8 +5,14 @@ const categorySchema = mongoose.Schema(
         name:{
             type: String,
             required:true,
-            unique:true,
             trim:true
+        },
+        color: {
+            type: String,
+            required: false,
+            trim: true,
+            match: /^#([0-9A-Fa-f]{3}){1,2}$/,
+            default: null,
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -17,6 +23,6 @@ const categorySchema = mongoose.Schema(
         timestamps: true
     }
 );
-
-const Category = mongoose.model("Category", categorySchema);
+categorySchema.index({ name: 1, user: 1 }, { unique: true });
+const Category = mongoose.model("tgs", categorySchema);
 module.exports=Category;

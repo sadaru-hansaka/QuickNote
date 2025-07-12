@@ -66,14 +66,14 @@ export const NotesProvider = ({ children }) => {
 
     return (
         <NotesContext.Provider value={{
-        notes, setNotes,
-        user, setUser,
-        isDialogOpen, setIsDialogOpen,
-        fetchNotes, searchNotes,
-        handleLogout,
-        loginUser
+            notes, setNotes,
+            user, setUser,
+            isDialogOpen, setIsDialogOpen,
+            fetchNotes, searchNotes,
+            handleLogout,
+            loginUser
         }}>
-        {children}
+            {children}
         </NotesContext.Provider>
     );
 };
