@@ -14,12 +14,18 @@ app.use('/api/notes', noteRoutes);
 app.use('/api/user',userRoutes)
 app.use('/api/category',categoryRoutes);
 
+const PORT = 8080;
+
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
 
 mongoose.connect(process.env.MONGODB_URI)
 .then (()=> {
     console.log("Connected to the DB");
-    app.listen(3000, ()=> {
-        console.log("Server is running on port 3000");
+    app.listen(PORT, ()=> {
+        console.log(`Server is running on port ${PORT}`);
     })
 })
 .catch((err)=>{
