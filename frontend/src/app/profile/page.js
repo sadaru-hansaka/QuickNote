@@ -3,7 +3,7 @@ import { useNotes } from "@/components/context/NoteContext";
 import { LogOut } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function profile(){
+export default function Profile(){
     const { user, handleLogout } = useNotes();
 
     return(
