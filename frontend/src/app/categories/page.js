@@ -31,13 +31,13 @@ export default function Categories(){
         const token = user?.token;
 
         try{
-            const res = await axios.post('http://localhost:3000/api/category',{name:category,color},{
+            const res = await axios.post('https://quicknote-qzaj.onrender.com/api/category',{name:category,color},{
                 headers: {
                     Authorization: token,
                 },
             });
             if(res.data.success){
-                alert("Categiry added successfully")
+                alert("Category added successfully")
                 setCategory(""); 
                 fetchCategories(token); 
             }
@@ -50,7 +50,7 @@ export default function Categories(){
     const fetchCategories = async (token) => {
         try {
             if(!token) return;
-            const res = await axios.get('http://localhost:3000/api/category',{
+            const res = await axios.get('https://quicknote-qzaj.onrender.com/api/category',{
                 headers: { Authorization: token },
             });
             setCategories(res.data);
@@ -62,7 +62,7 @@ export default function Categories(){
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to delete this category?")) return;
         try {
-            const res = await axios.delete(`http://localhost:3000/api/category/${id}`,{
+            const res = await axios.delete(`https://quicknote-qzaj.onrender.com/api/category/${id}`,{
                 headers: {
                     Authorization: user.token,
                 },

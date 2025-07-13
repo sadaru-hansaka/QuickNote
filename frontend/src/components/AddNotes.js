@@ -29,7 +29,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
 
         const fetchCategories = async (token) => {
             try {
-                const res = await axios.get('http://localhost:3000/api/category',{
+                const res = await axios.get('https://quicknote-qzaj.onrender.com/api/category',{
                     headers: { Authorization: token },
                 });
                 setCategories(res.data);
@@ -56,7 +56,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
 
         try{
             if(isEditing && noteToEdit){
-                const res = await axios.put(`http://localhost:3000/api/notes/${noteToEdit._id}`, {
+                const res = await axios.put(`https://quicknote-qzaj.onrender.com/api/notes/${noteToEdit._id}`, {
                     title,
                     note: content,
                     categoryID:selectedCategory,
@@ -71,7 +71,7 @@ export default function AddNotes({open, handleClose,isEditing = false, noteToEdi
                     onNoteUpdated();
                 }
             }else{
-                const res = await axios.post('http://localhost:3000/api/notes', {title, note:content,categoryID:selectedCategory},{
+                const res = await axios.post('https://quicknote-qzaj.onrender.com/api/notes', {title, note:content,categoryID:selectedCategory},{
                     headers: {
                         Authorization: token,
                     },

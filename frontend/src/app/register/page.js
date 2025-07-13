@@ -19,7 +19,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/user/register', formData);
+      const res = await axios.post('https://quicknote-qzaj.onrender.com/api/user/register', formData);
       localStorage.setItem('user', JSON.stringify(res.data)); // Store token
       router.push('/'); // Go to home
       alert("Registered successfully !")

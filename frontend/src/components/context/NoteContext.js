@@ -27,7 +27,7 @@ export const NotesProvider = ({ children }) => {
     const fetchNotes = async (token) => {
         try {
         if (!token) return;
-        const res = await axios.get('http://localhost:3000/api/notes', {
+        const res = await axios.get('https://quicknote-qzaj.onrender.com/api/notes', {
             headers: { Authorization: token },
         });
         setNotes(res.data);
@@ -42,7 +42,7 @@ export const NotesProvider = ({ children }) => {
         return;
         }
         try {
-        const res = await axios.get(`http://localhost:3000/api/notes/search/${query}`, {
+        const res = await axios.get(`https://quicknote-qzaj.onrender.com/api/notes/search/${query}`, {
             headers: { Authorization: token },
         });
         setNotes(res.data);

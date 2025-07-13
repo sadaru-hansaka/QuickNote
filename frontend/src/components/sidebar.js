@@ -64,7 +64,7 @@ export function AppSidebar() {
     const token = user?.token;
     if (!user) return;
 
-    axios.get("http://localhost:3000/api/category", {
+    axios.get("https://quicknote-qzaj.onrender.com/api/category", {
       headers: {
         Authorization: user.token,
       },

@@ -30,7 +30,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
     useEffect(()=>{
         const fetchCategory=async()=>{
             try{
-                const res = await axios.get(`http://localhost:3000/api/category/${note.categoryID}`);
+                const res = await axios.get(`https://quicknote-qzaj.onrender.com/api/category/${note.categoryID}`);
                 setCategory(res.data?.category?.name || "Unknown Category");
                 setCat(res.data?.category?.color)
             }catch (error) {
@@ -46,7 +46,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
         const token = user?.token;
         try{
             // console.log({note._id});
-            const res = await axios.delete(`http://localhost:3000/api/notes/${note._id}`,{
+            const res = await axios.delete(`https://quicknote-qzaj.onrender.com/api/notes/${note._id}`,{
                 headers:{
                     Authorization: token,
                 }
@@ -66,7 +66,7 @@ export default function NoteCard({note, onNoteDelete, onNoteUpdate}){
         const token = user?.token;
 
         try {
-            const res = await axios.put(`http://localhost:3000/api/notes/${note._id}/favorite`,
+            const res = await axios.put(`https://quicknote-qzaj.onrender.com/api/notes/${note._id}/favorite`,
                 {},
                 {
                     headers: {
