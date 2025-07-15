@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
               {/* Main container with app bar height offset */}
               <div className="flex flex-col min-h-screen">
                 {/* This empty div accounts for the fixed app bar space */}
-                <div className="h-16"></div>
+                <div className="h-20"></div>
                 
                 {/* Content area that will contain sidebar + main content */}
                 <div className="flex flex-1 overflow-hidden">
