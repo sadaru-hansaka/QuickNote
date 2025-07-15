@@ -7,7 +7,7 @@ export default function Profile(){
     const { user, handleLogout } = useNotes();
 
     return(
-        <div className="flex items-center justify-center md:w-[calc(100vw-450px)] md:h-[calc(100vh-250px)]">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-200 px-4 min-w-full min-h-full">
             <Card className="flex justify-center align-middle text-center h-[400px] w-[400px]">
                 <CardHeader>
                     <CardTitle className="text-2xl">Profile</CardTitle>
