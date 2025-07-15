@@ -24,12 +24,12 @@ export default function Home() {
         }}
         onNoteUpdated={() => fetchNotes(user?.token)}
       />
-      <div style={{ padding: '20px' }}>
-        <h1 className="text-2xl font-bold mb-6">My Notes</h1>
+      <div className="flex flex-wrap flex-col py-6 sm:py-0">
+        <h1 className="text-center md:text-left text-2xl font-bold mb-6">All Notes</h1>
         {notes.length === 0 ? (
           <p className="text-gray-500">No notes found.</p>
         ) : (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center sm:justify-normal gap-2">
             {notes.map((note) => (
               <NoteCard
                 key={note._id}

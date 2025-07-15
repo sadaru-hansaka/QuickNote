@@ -44,22 +44,24 @@ export default function RecentNotesPage(){
     // }, []);
 
     return(
-        <div className="p-2">
-            <h1 className="text-2xl font-bold mb-6">Favourite Notes</h1>
-            {notes.length === 0 ? (
-                <p className="text-gray-500">No favorite notes found.</p>
-            ) : (
-                <div className="flex flex-wrap gap-2">
-                    {favNotes.map(note => (
-                        <NoteCard
-                            key={note._id}
-                            note={note}
-                            onNoteDelete={()=>fetchNotes(user?.token)}
-                            onNoteUpdate={()=>fetchNotes(user?.token)}
-                        />
-                    ))}
-                </div>
-            )}
-        </div>
+        <>
+            <div className="flex flex-wrap flex-col w-full py-6 sm:py-0">
+                <h1 className="text-center md:text-left text-2xl font-bold mb-6">Favourite Notes</h1>
+                {notes.length === 0 ? (
+                    <p className="text-gray-500">No favorite notes found.</p>
+                ) : (
+                    <div className="flex flex-wrap justify-center sm:justify-normal gap-2">
+                        {favNotes.map(note => (
+                            <NoteCard
+                                key={note._id}
+                                note={note}
+                                onNoteDelete={()=>fetchNotes(user?.token)}
+                                onNoteUpdate={()=>fetchNotes(user?.token)}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+        </>
     )
 }

@@ -78,28 +78,30 @@ export default function Categories(){
 
 
     return(
-        <div className="w-[81vw] bg-gray-100 px-4">
+        <div className="flex mt-2 sm:mt-0">
             <div className="max-w-4xl mx-auto p-4">
-                <h1>Add New Category</h1>
+                <h1 className="text-center md:text-left text-2xl font-bold mb-6">Add New Category</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="flex w-full items-center gap-2 mt-5 mb-10">
-                        <Input type="text" placeholder="Category Name" value={category} onChange={(e) => setCategory(e.target.value)} required />
-                        <Popover>
-                            <PopoverTrigger className="h-8 w-8 rounded-full border" style={{ backgroundColor: color }} />
-                            <PopoverContent className="w-fit">
-                                <HexColorPicker color={color} onChange={setColor} />
-                            </PopoverContent>
-                        </Popover>
-                        <Button type="submit" variant="outline" className={" bg-[#18181B]  hover:bg-[#333335] rounded-md text-[#FFFFFF] px-2 py-1 cursor-pointer"}>
-                            + Add Category
-                        </Button>
+                    <div className="flex flex-wrap md:flex-nowrap w-full items-center gap-2 mt-5 mb-10">
+                        <Input className="w-full md:w-[600px]" type="text" placeholder="Category Name" value={category} onChange={(e) => setCategory(e.target.value)} required />
+                        <div className="w-full flex justify-center md:justify-start items-center gap-2 mt-2 md:mt-0">
+                            <Popover>
+                                <PopoverTrigger className="h-8 w-8 rounded-full border" style={{ backgroundColor: color }} />
+                                <PopoverContent className="w-fit">
+                                    <HexColorPicker color={color} onChange={setColor} />
+                                </PopoverContent>
+                            </Popover>
+                            <Button type="submit" variant="outline" className={" bg-[#18181B]  hover:bg-[#333335] rounded-md text-[#FFFFFF] px-2 py-1 cursor-pointer"}>
+                                + Add Category
+                            </Button>
+                        </div>
                     </div>
                 </form>
                 
                 <h1>Current Categories</h1>
                 <div className="flex flex-wrap gap-5 mt-5">
                     {categories.map((cat) => (
-                        <div key={cat._id} className="relative p-4 border bg-white shadow rounded-lg items-center w-[200px]">
+                        <div key={cat._id} className="relative p-4 border bg-white shadow rounded-lg w-[172px]">
                             <p className="text-gray-800 font-medium">{cat.name}</p>
                             <button
                                 onClick={() => handleDelete(cat._id)}
